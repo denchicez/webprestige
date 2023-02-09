@@ -103,8 +103,8 @@ async def stoloto_keno2_table():
         for draw in draws:
             table.append([])
             table[len(table) - 1].append(draw['date'])
-            table[len(table) - 1].append(draw['id'])
-            numbers = draw['combination']['serialized'][8:]
+            table[len(table) - 1].append(draw['number'])
+            numbers = draw['combination']['serialized'][9:]
             for j in range(1, 81):
                 if str(j) in numbers:
                     table[len(table) - 1].append(str(j))
@@ -121,6 +121,11 @@ async def stoloto_bigloto_table():
             table[0].append("0" + str(i))
         else:
             table[0].append(i)
+    for i in range(1, 11):
+        if i < 10:
+            table[0].append("0" + str(i))
+        else:
+            table[0].append(str(i))
     for page in range(1, 4):
         headers = {
             'authority': 'www.stoloto.ru',
@@ -150,9 +155,15 @@ async def stoloto_bigloto_table():
         for draw in draws:
             table.append([])
             table[len(table) - 1].append(draw['date'])
-            table[len(table) - 1].append(draw['id'])
-            numbers = draw['combination']['serialized']
+            table[len(table) - 1].append(draw['number'])
+            numbers = draw['combination']['serialized'][:-2]
             for j in range(1, 51):
+                if str(j) in numbers:
+                    table[len(table) - 1].append(str(j))
+                else:
+                    table[len(table) - 1].append("")
+            numbers = draw['combination']['serialized'][-2:]
+            for j in range(1, 11):
                 if str(j) in numbers:
                     table[len(table) - 1].append(str(j))
                 else:
