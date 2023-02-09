@@ -1,5 +1,4 @@
-import time
-
+import dateparser as dp
 import requests as rq
 from bs4 import BeautifulSoup
 
@@ -102,7 +101,7 @@ async def stoloto_keno2_table():
         draws = resp['draws']
         for draw in draws:
             table.append([])
-            table[len(table) - 1].append(draw['date'])
+            table[len(table) - 1].append(dp.parse(draw['date']).strftime('%d.%m.%Y %H:%M:%S'))
             table[len(table) - 1].append(draw['number'])
             numbers = draw['combination']['serialized'][9:]
             for j in range(1, 81):
@@ -154,7 +153,7 @@ async def stoloto_bigloto_table():
         draws = resp['draws']
         for draw in draws:
             table.append([])
-            table[len(table) - 1].append(draw['date'])
+            table[len(table) - 1].append(dp.parse(draw['date']).strftime('%d.%m.%Y %H:%M:%S'))
             table[len(table) - 1].append(draw['number'])
             numbers = draw['combination']['serialized'][:-2]
             for j in range(1, 51):
